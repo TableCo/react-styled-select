@@ -212,7 +212,7 @@ class WrapperSelect extends React.PureComponent {
   }
 
   onSearching(event) {
-    const { onInputChange, onTyping } = this.props
+    const { onInputChange, onTyping, searchable } = this.props
     const { focusedIndex, options, isOpened } = this.state;
 
     this.props.onKeyDown(event)
@@ -282,7 +282,9 @@ class WrapperSelect extends React.PureComponent {
         this.closeOptions()
         break;
       default:
-        setTimeout(typing, 1)
+        if (searchable) {
+          setTimeout(typing, 1)
+        }
     }
   }
 
@@ -347,9 +349,6 @@ class WrapperSelect extends React.PureComponent {
             id={this.state['input-field-id']}
             className={classes.selectInputField}
             data-select-input-search
-            onKeyUp={this.props.onKeyUp}
-            onKeyPress={this.props.onKeyPress}
-            onKeyDown={this.onSearchingBinded}
             onChange={this.props.onInputChange}
             innerRef={(n) => this.inputInnerRef = n}
             aria-label={placeholder}
@@ -462,6 +461,11 @@ class WrapperSelect extends React.PureComponent {
           isOpened={isOpened}
           aria-haspopup={isOpened}
           className={classes.selectControl}
+          tabIndex={this.props.tabIndex}
+          onFocus={this.onSelectFocusedBinded}
+          onKeyDown={this.onSearchingBinded}
+          onKeyUp={this.props.onKeyUp}
+          onKeyPress={this.props.onKeyPress}
           data-select-control onMouseDown={this.onSelectFocusedBinded}>
           {this.renderSelectMultiValueWrapper()}
           {this.renderSelectClearZone()}
@@ -486,6 +490,7 @@ WrapperSelect.propTypes = {
   onKeyPress: PropTypes.func,
   onKeyDown: PropTypes.func,
   onValueClick: PropTypes.func,
+  tabIndex: PropTypes.string,
   closeMenuOnSelect: PropTypes.func,
   onInputClear: PropTypes.func,
   clearable: PropTypes.bool,
@@ -510,6 +515,7 @@ WrapperSelect.defaultProps = {
   onTyping: () => {},
   onValueClick: () => {},
   onInputClear: () => {},
+  tabIndex: '0',
   closeMenuOnSelect: () => {},
   clearable: false,
   searchable: true,
