@@ -330,6 +330,10 @@ class WrapperSelect extends React.PureComponent {
           htmlFor={this.state['input-field-id']}
           innerRef={(n) => this.inputInnerRef = n}
           className={classes.selectMultiValueWrapper}
+          tabIndex={this.props.tabIndex}
+          onKeyDown={this.onSearchingBinded}
+          onKeyUp={this.props.onKeyUp}
+          onKeyPress={this.props.onKeyPress}
           data-select-multi-value-wrapper={multi}>
           {content}
         </SelectWrapperComp>
@@ -349,6 +353,10 @@ class WrapperSelect extends React.PureComponent {
             id={this.state['input-field-id']}
             className={classes.selectInputField}
             data-select-input-search
+            tabIndex={this.props.tabIndex}
+            onKeyUp={this.props.onKeyUp}
+            onKeyPress={this.props.onKeyPress}
+            onKeyDown={this.onSearchingBinded}
             onChange={this.props.onInputChange}
             innerRef={(n) => this.inputInnerRef = n}
             aria-label={placeholder}
@@ -461,11 +469,6 @@ class WrapperSelect extends React.PureComponent {
           isOpened={isOpened}
           aria-haspopup={isOpened}
           className={classes.selectControl}
-          tabIndex={this.props.tabIndex}
-          onFocus={this.onSelectFocusedBinded}
-          onKeyDown={this.onSearchingBinded}
-          onKeyUp={this.props.onKeyUp}
-          onKeyPress={this.props.onKeyPress}
           data-select-control onMouseDown={this.onSelectFocusedBinded}>
           {this.renderSelectMultiValueWrapper()}
           {this.renderSelectClearZone()}
