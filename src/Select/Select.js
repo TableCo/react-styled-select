@@ -260,11 +260,13 @@ class WrapperSelect extends React.PureComponent {
         setTimeout(typing, 1)
         break;
       case KEY_UP:
+        event.preventDefault();
         this.setState({
           focusedIndex: (focusedIndex <= 0 ? lastIndex : (focusedIndex - 1))
         })
         break;
       case KEY_DOWN:
+        event.preventDefault();
         if (!isOpened) {
           this.openOptions()
           break;
@@ -274,6 +276,7 @@ class WrapperSelect extends React.PureComponent {
         })
         break;
       case KEY_ENTER:
+        event.preventDefault();
         if (!options.length) break;
         const newValue = options[focusedIndex].value
         this.onSelectValueBinded(newValue, event)
@@ -330,10 +333,11 @@ class WrapperSelect extends React.PureComponent {
           htmlFor={this.state['input-field-id']}
           innerRef={(n) => this.inputInnerRef = n}
           className={classes.selectMultiValueWrapper}
-          tabIndex={this.props.tabIndex}
+          onFocus={this.onSelectFocusedBinded}
           onKeyDown={this.onSearchingBinded}
           onKeyUp={this.props.onKeyUp}
           onKeyPress={this.props.onKeyPress}
+          tabIndex={this.props.tabIndex}
           data-select-multi-value-wrapper={multi}>
           {content}
         </SelectWrapperComp>
@@ -353,10 +357,11 @@ class WrapperSelect extends React.PureComponent {
             id={this.state['input-field-id']}
             className={classes.selectInputField}
             data-select-input-search
-            tabIndex={this.props.tabIndex}
+            onFocus={this.onSelectFocusedBinded}
             onKeyUp={this.props.onKeyUp}
             onKeyPress={this.props.onKeyPress}
             onKeyDown={this.onSearchingBinded}
+            tabIndex={this.props.tabIndex}
             onChange={this.props.onInputChange}
             innerRef={(n) => this.inputInnerRef = n}
             aria-label={placeholder}
